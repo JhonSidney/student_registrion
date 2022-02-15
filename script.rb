@@ -13,20 +13,30 @@ class Pessoa
     end
 end
 
-def wait(object)
+def wait(name, age, check)
     system "clear"
-    menu
-    puts "Dados informados: #{object.name} | #{object.age}"
-    i =0 
-    while i < 1 do
-        print "Cadastrando."
+    puts "Aluno: #{name} | Idade: #{age}"
+    print "Deseja alterar os dados informados?(s/n):"
+    local = gets.chomp.to_s.downcase
+    if local == 'n'
+        print "Checkando dados."
         sleep(1)
         print "...."
         sleep(1)
         print "..\n"
-        system "clear"
-        i+=1
+        if age <= 6 or age >=100
+            puts " Idade incorreta! tente novamente!"
+            sleep(5)
+            return false
+        else
+            puts "Dados Verificados!"
+            sleep(2)
+            return true
+        end
+    else
+        return false
     end
+    system "clear"
     info(object)
 end
 
@@ -122,8 +132,8 @@ def layout(object)
             puts "| 0.Sair"
             puts "|==================================================================\n"
             puts "|selecione a opcao desejada:"
-            menu = gets.chomp.to_i
-            case menu
+            menu_local = gets.chomp.to_i
+            case menu_local
             when 1
                 print "Altere o nome:"
                 name =  gets.chomp.to_s
@@ -131,7 +141,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_s
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                
             when 2
                 print "Altere o endereco:"
                 adress =  gets.chomp.to_s
@@ -139,7 +153,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_i
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                menu
             when 3
                 print "Altere o telefone Ex.[DDD xxxx-xxxx]:"
                 phone =  gets.chomp.to_s
@@ -147,7 +165,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_s
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                menu
             when 4
                 print "Altere o nome do responsavel:"
                 responsable =  gets.chomp.to_s
@@ -155,7 +177,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_s
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                menu
             when 5
                 print "Altere o tipo de Usuario[Aluno]:"
                 person =  gets.chomp.to_s
@@ -163,7 +189,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_s
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                menu
             when 6
                 ano_atual = t.strftime("%Y")
                 print "informe o ANO de nascimento. ex.1990:"
@@ -173,7 +203,11 @@ def layout(object)
                 object.change = "#{t.strftime("%d/%m/%Y %H:%M:%S")}"
                 print "deseja fazer mais alterações?(s/n)"
                 selecao = gets.chomp.to_s
-                next
+                next if selecao == 's'
+                system "clear"
+                puts "Alterações realizadas com sucesso!!!"
+                sleep(3)
+                menu
             when 0
                 puts "Continuar editando as informações?(s/n)"
                 selecao =gets.chomp.to_s
@@ -183,7 +217,7 @@ def layout(object)
                 puts "Opção inválida"
                 next
             end
-            
+
             return object
         end
     else
@@ -214,15 +248,19 @@ while option != 969 do
         puts "|                                              ALUNOS                                        |"
         puts "|============================================================================================|"
         if relacao.length != 10
-            puts "Digite nome do aluno completo:"
-            name =  gets.chomp.to_s  
-            puts "sua idade:"
-            age = gets.chomp.to_i
-            menu
-            id = gera_id(relacao)
+            check = false
+            while check == false do
+                menu
+                puts "Digite nome do aluno completo:"
+                name =  gets.chomp
+                puts "sua idade:"
+                age = gets.chomp.to_i
+                menu
+                id = gera_id(relacao)
+                check = wait(name, age, check)
+            end
             
             object = Pessoa.new(id,name.upcase,age,change.strftime("%d/%m/%Y %H:%M:%S"))
-            wait(object)
             relacao.push(object)
             menu
         else
@@ -236,7 +274,6 @@ while option != 969 do
         temp = []
         if relacao.length > 0
             system "clear"
-            times
             times
             puts "|============================================================================================|"
             puts "|                         QUANTIDADE ALUNOS CADASTRADOS NO SISTEMA: #{relacao.length}"
@@ -256,7 +293,7 @@ while option != 969 do
                 end
             end
         else
-            puts "\n\nNenhum Aluno Cadstrado!"            
+            puts "\n\nNenhum Aluno Cadastrado!"            
         end
         texto_menu
         option =  gets.chomp.to_i
@@ -291,12 +328,10 @@ while option != 969 do
                 aluno = layout(object)
             end
         else
-            puts "\nNenhum Aluno Cadastrado!"            
+            puts "\nNenhum Aluno Cadastrado!"     
         end
-        
-        menu
         texto_menu
-        option =  gets.chomp.to_i
+        option =  gets.chomp.to_i   
     when 4
         system "clear"
             if relacao.length > 0
@@ -339,7 +374,7 @@ while option != 969 do
                 option = opcao
             end
         else
-            puts "\nNenhum Aluno Cadstrado!"            
+            puts "\nNenhum Aluno Cadastrado!"            
         end
 
         texto_menu
