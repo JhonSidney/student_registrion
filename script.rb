@@ -206,11 +206,13 @@ while option != 969 do
     when 1
         system "clear"
         times
-        puts "|=============================================="
-        puts "| Qtd. max de alunos para cadastro é 10"
-        puts "| Qtd. Alunos Cadastrados: #{ relacao.length }"
-        puts "| >>>> MENU CADASTRO <<<<<"                  
-        puts "|=============================================="
+        puts "|============================================================================================|"
+        puts "|                         QUANTIDADE DE VAGAS NO SISTEMA:10"
+        puts "|                         QUANTIDADE ALUNOS CADASTRADOS NO SISTEMA: #{relacao.length}"
+        puts "|                                            MENU EDITAR"                  
+        puts "|============================================================================================|"
+        puts "|                                              ALUNOS                                        |"
+        puts "|============================================================================================|"
         if relacao.length != 10
             puts "Digite nome do aluno completo:"
             name =  gets.chomp.to_s  
@@ -230,17 +232,18 @@ while option != 969 do
         option = gets.chomp.to_i
     when 2
         system "clear"
-        times
-        puts "|=============================================="
-        puts "| Qtd. Alunos Cadastrados: #{ relacao.length }"
-        puts "| >>>> MENU LISTAR <<<<<"                  
-        puts "|=============================================="
+        
         temp = []
         if relacao.length > 0
             system "clear"
-            puts "|-----------------------------------------------------------------------------------------------------------"
-            puts "|            Aluno                                                                                          |"
-            puts "|------------------------------------------------------------------------------------------------ ----------"
+            times
+            times
+            puts "|============================================================================================|"
+            puts "|                         QUANTIDADE ALUNOS CADASTRADOS NO SISTEMA: #{relacao.length}"
+            puts "|                                            MENU LISTAR"                  
+            puts "|============================================================================================|"
+            puts "|                                              ALUNOS                                        |"
+            puts "|============================================================================================|"
             relacao.each do |object|
                 temp << object.id
             end
@@ -249,11 +252,11 @@ while option != 969 do
                 print "|COD:#{indice} |"
                 relacao.each do |aluno|
                     next if aluno.id != indice
-                    puts "ALUNO: #{aluno.name}    |TELEFONE: #{aluno.phone}    |ENDERECO: #{aluno.adress}    | TIPO: #{aluno.person}"
+                    puts "ALUNO: #{aluno.name} "
                 end
             end
         else
-            puts "\nNenhum Aluno Cadstrado!"            
+            puts "\n\nNenhum Aluno Cadstrado!"            
         end
         texto_menu
         option =  gets.chomp.to_i
@@ -276,7 +279,7 @@ while option != 969 do
                 print "|COD:#{indice} |"
                 relacao.each do |aluno|
                     next if aluno.id != indice
-                    puts "ALUNO: #{aluno.name} |TELEFONE: #{aluno.phone} |ENDERECO: #{aluno.adress} | TIPO: #{aluno.person}"
+                    puts "ALUNO: #{aluno.name}"
                 end
             end
 
@@ -304,15 +307,21 @@ while option != 969 do
                 puts "|============================================================================================|"
                 puts "|                                              ALUNOS                                        |"
                 puts "|============================================================================================|"
-          
-            
-            relacao.each do |aluno|
-                cod = aluno.id
-                nome = aluno.name
-                puts "|COD:#{cod} |ALUNO #{nome}"
-            end
+
+                temp =[]
+                relacao.each do |object|
+                    temp << object.id
+                end
+                temp = temp.sort
+                temp.each do |indice|
+                    print "|COD:#{indice} |"
+                    relacao.each do |aluno|
+                        next if aluno.id != indice
+                        puts "ALUNO: #{aluno.name}"
+                    end
+                end
        
-            print "Digite |S - SAIR OU COD. ALUNO PARA REMOVER| :"
+            print "\n\nDIGITE COD. ALUNO PARA REMOVER| :"
             procura_id =  gets.chomp.to_i
 
             puts "deseja remover este usuario(y/n)"
